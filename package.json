@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx cypress open --browser chrome --e2e --env $spotifyUsername"
   },
   "keywords": [],
-  "author": "",
+  "author": "Marcela Silva",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^13.9.0"
+    "cypress": "^13.9.0",
+    "prettier": "^3.2.5"
   }
 }

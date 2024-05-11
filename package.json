@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx cypress open --browser chrome --e2e --env $spotifyUsername"
+    "start": "npx cypress open --browser chrome --e2e"
   },
   "keywords": [],
   "author": "Marcela Silva",

@@ -7,6 +7,7 @@ module.exports = defineConfig({
     }
   },
   env: {
-    spotifyUsername: ''
+    spotifyUsername: '',
+    spotifyPassword: ''
   }
 });

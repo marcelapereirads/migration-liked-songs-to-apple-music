@@ -2,11 +2,12 @@
 
 describe('Track songs from Spotify', () => {
   it('Track liked songs from Spotify', () => {
-    const spotifyUsername = Cypress.env('spotifyUsername');
+    const username = Cypress.env('spotifyUsername');
+    const password = Cypress.env('spotifyPassword');
 
-    if (!spotifyUsername) {
+    if (!username || !password) {
       throw new Error(
-        'The Spotify username is required to track songs. Please refer to the readme.md for instructions.'
+        'The Spotify username and password are required to track songs. Please refer to the readme.md for instructions.'
       );
     }
 
@@ -15,6 +16,8 @@ describe('Track songs from Spotify', () => {
 
     cy.get('[data-testid="login-button"]').click();
 
-    cy.get('#login-username').type(spotifyUsername);
+    cy.get('#login-username').type(username);
+    cy.get('#login-password').type(password);
+    cy.get('#login-button').click();
   });
 });

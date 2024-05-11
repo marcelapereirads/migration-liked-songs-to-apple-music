@@ -4,9 +4,9 @@ The objective of this project is to facilitate a smooth transition from Spotify 
 
 ## Getting Started
 
-To initiate the migration, please execute the following script, replacing "{{my-username}}" with your email or Spotify username.
+To initiate the migration, please execute the following script, replacing "{{my-spotify-username}}" with your email or Spotify username and "{{my-spotify-password}}" with your Spotify password.
 
-> npm run start spotifyUsername={{my-username}}
+> npm run start -- --env spotifyUsername={{my-spotify-username}},spotifyPassword={{my-spotify-password}}
 
 ## Limitations
 

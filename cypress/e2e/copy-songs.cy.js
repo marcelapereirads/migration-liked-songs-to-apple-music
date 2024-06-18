@@ -26,7 +26,7 @@ describe('Track songs from Spotify', () => {
     cy.get('#login-button').click();
 
     //* Go to settings page and change language to English
-    cy.get('[data-testid=user-widget-avatar]').click();
+    cy.get('[data-testid=user-widget-avatar]', { timeout: 10000 }).click();
     cy.get('a[href="/preferences"]').click();
 
     // Remove an invisible div over the language dropdown
@@ -37,5 +37,27 @@ describe('Track songs from Spotify', () => {
     //* Go to Liked Songs page
     cy.get('[class^=LegacyChip]').contains('Music').click();
     cy.get('a[title="Liked Songs"]').click({ force: true });
+
+    //* Get the artist and song name
+    cy.get('[data-testid="tracklist-row"]').each((song) => {
+      let artistName = '';
+
+      cy.wrap(song)
+        .as('song')
+        .find('a[href^="/artist"]')
+        .each((artist) => {
+          cy.wrap(artist)
+            .invoke('text')
+            .then((artist) => {
+              artistName = !artistName.length ? artist : `${artistName}, ${artist}`;
+            });
+        })
+        .then(() => {
+          cy.get('@song')
+            .find('[data-testid="internal-track-link"]')
+            .invoke('text')
+            .then((song) => console.log(artistName, song));
+        });
+    });
   });
 });

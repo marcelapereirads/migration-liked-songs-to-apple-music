@@ -10,5 +10,6 @@ To initiate the migration, please execute the following script, replacing "{{my-
 
 ## Limitations
 
-In the initial version of the application, logging in to Spotify requires using an email and password. Authentication via Google, Facebook, or Apple accounts will not be supported in this release. Future updates may introduce support for additional login methods.
+This is an experimental study project. I aim only to validate my knowledge and learn more about Cypress. Cypress is a testing framework, not a solution to automate different things, but I am having so fun while doing this project. Another obvious issue is I don't have control of Spotify selectors, so my automation can be broken on each Spotify webpage update. I used the few "data-testid" that I found every time it was possible, but a lot of the selections are get with classes, ids, elements and texts. You can find the Cypress recommendations for selecting elements [here](https://docs.cypress.io/guides/references/best-practices#Selecting-Elements).
+
 Additionally, this initial version does not include support for running Cypress in headless mode.

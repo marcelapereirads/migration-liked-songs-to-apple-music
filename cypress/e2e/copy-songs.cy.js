@@ -31,33 +31,44 @@ describe('Track songs from Spotify', () => {
 
     // Remove an invisible div over the language dropdown
     cy.get('[data-testid="LayoutResizer__resize-bar"]').parent().invoke('remove');
-    cy.get('select > option[value="en"]').parent().select('en');
-    cy.get('[data-testid="top-bar-back-button"]').click();
+
+    cy.get('.encore-announcement-set button').click();
+    cy.get('select > option[value="en"]').parent().select('en', { force: true });
+    cy.get('[data-testid="top-bar-back-button"]').click({ force: true });
 
     //* Go to Liked Songs page
     cy.get('[class^=LegacyChip]').contains('Music').click();
     cy.get('a[title="Liked Songs"]').click({ force: true });
 
-    //* Get the artist and song name
-    cy.get('[data-testid="tracklist-row"]').each((song) => {
-      let artistName = '';
+    //* Get the amount of liked songs
+    cy.contains('songs')
+      .invoke('text')
+      .then((text) => {
+        const amountOfSongs = parseInt(text);
+        let accumulatedScroll = 270;
 
-      cy.wrap(song)
-        .as('song')
-        .find('a[href^="/artist"]')
-        .each((artist) => {
-          cy.wrap(artist)
-            .invoke('text')
-            .then((artist) => {
-              artistName = !artistName.length ? artist : `${artistName}, ${artist}`;
-            });
-        })
-        .then(() => {
-          cy.get('@song')
+        cy.get('[data-testid="top-sentinel"]').next().as('trackList');
+
+        //* For some reason, the list of songs in Spotify starts in 2
+        for (let i = 1; i <= amountOfSongs; i++) {
+          //* For each row of the track list, get the text of the second column, containing song name and artist
+          cy.get('@trackList')
+            .find(`[aria-rowindex=${i + 1}] > [data-testid="tracklist-row"] > [aria-colindex="2"]`)
+            .as('song')
             .find('[data-testid="internal-track-link"]')
             .invoke('text')
-            .then((song) => console.log(artistName, song));
-        });
-    });
+            .then((text) => {
+              //* Slowly scroll down the list, to load more songs while gets the song names
+              const pixelsToScrollDown = 60;
+              accumulatedScroll += pixelsToScrollDown;
+
+              if (i % 5 === 0) {
+                console.log('scroll');
+                cy.get('div[data-overlayscrollbars-viewport*=overflowYScroll]').scrollTo(0, accumulatedScroll);
+              }
+              console.log(i, text);
+            });
+        }
+      });
   });
 });
